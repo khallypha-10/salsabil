@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Contact, Event, Blog, Comment, Cause, Comment_Cause, Member, Payment
+from .models import Contact, Event, Blog, Comment, Cause, Comment_Cause, Member, Payment, Subscribers
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect
 from django.http import JsonResponse
 from . form import CommentForm, CauseCommentForm
 from django.conf import settings
-from django.core.mail import send_mail
+from django.core.mail import send_mail, send_mass_mail
 # Create your views here.
 
 def home(request):
@@ -23,6 +23,15 @@ def home(request):
     context = {'events': events, 'blogs': blogs, 'causes': causes, "total": total, 'causes_count': causes_count, 'events_count': events_count}
     return render(request, "home.html", context)
 
+def subscribers(request):
+    if request.method == 'POST':
+        sub_name = request.POST['sub']
+        sub = Subscribers(email=sub_name)
+        sub.save()
+        messages.success(request, 'You have subscribed!')
+        return redirect('home')
+    return render(request, "base.html")
+
 def about(request):
     members = Member.objects.all()
     context = {'members': members}
@@ -37,7 +46,13 @@ def contact(request):
         message = request.POST['message']
         contact = Contact(first_name=first_name, last_name=last_name, email=email, subject=subject, message=message)
         contact.save()
-        
+        send_mail(
+                subject,
+                message,
+                "sabilcharityfoundation@gmail.com",
+                ["sabilcharityfoundation@gmail.com"],
+                fail_silently=False,
+            )
         
         messages.success(request, 'Your message was received. We will get back to you shortly')
         return redirect("home")

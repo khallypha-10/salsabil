@@ -153,3 +153,8 @@ class Payment(models.Model):
                 self.ref = ref
 
         super().save(*args, **kwargs)
+
+class Subscribers(models.Model):
+    email = models.EmailField(max_length=254)
+    class Meta:
+        verbose_name_plural = 'Subscribers'
