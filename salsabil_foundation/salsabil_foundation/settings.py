@@ -24,8 +24,11 @@ SECRET_KEY = 'django-insecure--!68qx(&k4fho$+!@^8n16)_wz=3=8sw@rk94gvvb+)snvsqz&
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+CSRF_TRUSTED_ORIGINS = [
+    'https://www.salsabilfoundation.com','https://salsabilfoundation.com', 'http://www.salsabilfoundation.com', 'http://salsabilfoundation.com'
+]
+ALLOWED_HOSTS = ['127.0.0.1', '51.20.85.244', 'www.salsabilfoundation.com', 'salsabilfoundation.com', 'https://www.salsabilfoundation.com','https://salsabilfoundation.com', 'http://www.salsabilfoundation.com', 'http://salsabilfoundation.com']
 
-ALLOWED_HOSTS = ['127.0.0.1','https://www.salsabilfoundation.com','https://salsabilfoundation.com', 'http://www.salsabilfoundation.com', 'http://salsabilfoundation.com']
 
 
 # Application definition
